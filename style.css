@@ -1,0 +1,45 @@
+@property --k {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: false;
+}
+body {
+  display: grid;
+  margin: 0;
+  height: 100vh;
+  background: black;
+}
+img:hover {
+  --k: 1;
+  width: 95vmin;
+  height: 95vmin;
+  transition: --k 0.2s ease-out;
+  border: 1px solid red;
+}
+
+img {
+  --k: 0;
+  --j: calc(1 - var(--k));
+  --list: transparent calc(50% - 4vmin), red 0 calc(50% + 4vmin), transparent 0;
+  place-self: center;
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 80vmin;
+  height: 80vmin;
+  filter: grayScale(var(--j));
+  --mask: radial-gradient(closest-side, red calc(50% - 1px), transparent 50%),
+    radial-gradient(
+      closest-side,
+      transparent calc(50% - 25% + var(--k) * 2 * 25% - 1px),
+      red calc(50% - 25% + var(--k) * 2 * 25%)
+        calc(var(--k) * 100% + var(--j) * 50% - 1px),
+      transparent calc(var(--k) * 100% + var(--j) * 50%)
+    ),
+    linear-gradient(var(--list)), linear-gradient(90deg, var(--list)),
+    linear-gradient(45deg, var(--list)), linear-gradient(-45deg, var(--list));
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  -webkit-mask-composite: source-over, source-in, source-over, source-over, xor;
+  mask-composite: add, intersect, add, add;
+  transition: --k 0.2s ease-out;
+}
